@@ -32,5 +32,4 @@ public class PantallaGenerarReporteDeRankingDeVinos {
         System.out.println("Solicitando fechas...");
         
     }
-
 }
