@@ -1,4 +1,3 @@
-
 package Entrega1.interfaz;
 
 import java.awt.event.ActionEvent;
@@ -7,26 +6,35 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 
-import Entrega1.clases.GestorDeGeneracionDeReporte;
-
-public class MenuPrincipal implements ActionListener{
+public class MenuPrincipal{
     private JFrame frame;
     private JButton botonGenerarReporte;
+    private JButton botonOtraFuncionalidad1;
+    private JButton botonOtraFuncionalidad2;
+    private PantallaGenerarReporteDeRankingDeVinos pantallaRankingDeVinos;
 
     public MenuPrincipal(){
         frame = new JFrame("Menu Principal");
         frame.setLayout(null);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        botonGenerarReporte = new JButton("Generar Reporte");
-        botonGenerarReporte.setBounds(400, 300, 200, 50);
+        botonGenerarReporte = new JButton("Generar Reporte de Ranking de vinos");
+        botonGenerarReporte.setBounds(100, 50, 500, 50);
         botonGenerarReporte.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
-                GestorDeGeneracionDeReporte gestor = new GestorDeGeneracionDeReporte();
-                gestor.generarReporte();
+                pantallaRankingDeVinos = new PantallaGenerarReporteDeRankingDeVinos();
+                pantallaRankingDeVinos.opcionGenerarRankingDeVino();
             }
         });
-
         frame.add(botonGenerarReporte);
+
+        botonOtraFuncionalidad1 = new JButton("Otra funcionalidad 1");
+        botonOtraFuncionalidad1.setBounds(100, 150, 500, 50);
+        frame.add(botonOtraFuncionalidad1);
+        botonOtraFuncionalidad2 = new JButton("Otra funcionalidad 2");
+        botonOtraFuncionalidad2.setBounds(100, 250, 500, 50);
+        frame.add(botonOtraFuncionalidad2);
+
     }
 
     public void habilitarPantalla(){
@@ -37,8 +45,10 @@ public class MenuPrincipal implements ActionListener{
     }
 
     public static void main(String[] args){
-        GestorDeGeneracionDeReporte gestor = new GestorDeGeneracionDeReporte()
-        MenuPrincipal menu = new MenuPrincipal(gestor);
+
+        //GestorDeGeneracionDeReporte gestor = new GestorDeGeneracionDeReporte();
+
+        MenuPrincipal menu = new MenuPrincipal();
         menu.habilitarPantalla();
     }
 }
