@@ -1,9 +1,10 @@
 package Entrega1.modelo;
+import java.util.ArrayList;
 
 public class Pais {
     private String nombre;
-    private Provincia[] provincias;
-    public Pais(String nombre, Provincia[] provincias){
+    private ArrayList<Provincia> provincias;
+    public Pais(String nombre, ArrayList<Provincia> provincias){
         this.nombre = nombre;
         this.provincias = provincias;
     }
@@ -12,7 +13,7 @@ public class Pais {
         return nombre;
     }
     
-    public Provincia[] getProvincias(){
+    public ArrayList<Provincia> getProvincias(){
         return provincias;
     }
     

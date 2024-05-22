@@ -7,7 +7,7 @@ public class PantallaGenerarReporteDeRankingDeVinos {
     private GestorDeGeneracionDeReporte gestor;
     private InterfazExcel interfazExcel;
     private JFrame frame;
-
+    
     public PantallaGenerarReporteDeRankingDeVinos(){
         this.interfazExcel = new InterfazExcel();
         this.gestor = new GestorDeGeneracionDeReporte(this, interfazExcel);
@@ -26,6 +26,11 @@ public class PantallaGenerarReporteDeRankingDeVinos {
         habilitarPantalla();
         System.out.println("Generando ranking de vinos...");
         gestor.generarRankingDeVino();
+    }
+
+    public void solicitarFechaDesdeYFechaHasta(){
+        System.out.println("Solicitando fechas...");
         
     }
+
 }

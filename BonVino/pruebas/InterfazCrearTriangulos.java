@@ -9,8 +9,6 @@ public class InterfazCrearTriangulos extends JFrame implements ActionListener {
     private JLabel label1;
     private JButton botonEnviar;
     private JButton boton2;
-    private int width;
-    private int heigth;
 
     public InterfazCrearTriangulos(){
         setLayout(null);
@@ -27,8 +25,6 @@ public class InterfazCrearTriangulos extends JFrame implements ActionListener {
         boton2.setBounds(500,500,100,20);
         add(botonEnviar);
         boton2.addActionListener(this);
-        
-
     }
     
     public static void main(String[] args) {

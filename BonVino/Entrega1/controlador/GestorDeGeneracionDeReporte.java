@@ -13,8 +13,7 @@ public class GestorDeGeneracionDeReporte {
     }
 
     public void generarRankingDeVino(){
-        
-        
+        pantalla.solicitarFechaDesdeYFechaHasta();
         // Code to generate the ranking
         this.interfazExcel.exportarExcel();
     }

@@ -17,6 +17,11 @@ public class Reseña {
         this.vino = vino;
     }
 
+    public boolean sosDelPeriodo(Date fechaDesde, Date fechaHasta) {
+        // Return true si la reseña fue realizada en el periodo indicado
+        return fechaReseña.after(fechaDesde) && fechaReseña.before(fechaHasta);
+    }
+
     public String getComentario() {
         return comentario;
     }
