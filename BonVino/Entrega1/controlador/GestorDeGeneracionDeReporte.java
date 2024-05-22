@@ -1,5 +1,8 @@
 package Entrega1.clases;
 
+import Entrega1.Interfaz.InterfazExcel;
+import Entrega1.Interfaz.PantallaGenerarReporteDeRankingDeVinos;
+
 public class GestorDeGeneracionDeReporte {
     public PantallaGenerarReporteDeRankingDeVinos pantalla;
     public InterfazExcel interfazExcel;

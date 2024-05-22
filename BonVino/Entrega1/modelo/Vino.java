@@ -1,7 +1,6 @@
+
 package Entrega1.modelo;
 
-import Entrega1.modelo.Bodega;
-import Entrega1.modelo.Reseña;
 
 public class Vino {
     private int añada;
