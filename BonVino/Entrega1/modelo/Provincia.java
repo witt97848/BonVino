@@ -1,4 +1,4 @@
-package Entrega1.clases;
+package Entrega1.modelo;
 
 public class Provincia{
     private String nombre;
@@ -8,12 +8,22 @@ public class Provincia{
         this.nombre = nombre;
         this.regiones = regiones;
     }
+    
     public String getNombre(){
         return nombre;
     }
-
+    
     public RegionVitivinicola[] getRegiones(){
         return regiones;
+    }
+    
+    public boolean esTuRegion(RegionVitivinicola region){
+        for (RegionVitivinicola cadaRegion : regiones) {
+            if(cadaRegion == region){
+                return true;
+            }
+        }
+        return false;
     }
     
 }

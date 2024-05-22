@@ -1,5 +1,7 @@
-package Entrega1.clases;
+package Entrega1.modelo;
 
+import Entrega1.modelo.Bodega;
+import Entrega1.modelo.Reseña;
 
 public class Vino {
     private int añada;
@@ -17,23 +19,29 @@ public class Vino {
         this.reseñas = reseñas;
         this.bodega = bodega;
     }
-
+    
     public int getAñada(){
         return añada;
     }
+    
     public String getNombre(){
         return nombre;
     }
+    
     public double getNotaDeCataBodeta(){
         return notaDeCataBodeta;
     }
+    
     public double getPrecioARS(){
         return precioARS;
     }
+    
     public Reseña[] getReseñas(){
         return reseñas;
     }
+    
     public Bodega getBodega(){
         return bodega;
     }
+
 }

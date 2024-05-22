@@ -1,4 +1,4 @@
-package Entrega1.clases;
+package Entrega1.modelo;
 
 public class Pais {
     private String nombre;
@@ -7,10 +7,22 @@ public class Pais {
         this.nombre = nombre;
         this.provincias = provincias;
     }
+
     public String getNombre(){
         return nombre;
     }
+    
     public Provincia[] getProvincias(){
         return provincias;
     }
+    
+    public boolean esTuProvincia(Provincia provincia){
+        for (Provincia cadaProvincia : provincias) {
+            if(cadaProvincia == provincia){
+                return true;
+            }
+        }
+        return false;
+    }
+
 }

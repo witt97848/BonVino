@@ -1,4 +1,4 @@
-package Entrega1.clases;
+package Entrega1.Interfaz;
 
 public class InterfazExcel {
     public void exportarExcel(){

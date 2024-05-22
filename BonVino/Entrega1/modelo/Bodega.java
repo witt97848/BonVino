@@ -1,4 +1,4 @@
-package Entrega1.clases;
+package Entrega1.modelo;
 
 
 public class Bodega {
@@ -11,6 +11,7 @@ public class Bodega {
         this.nombre = nombre;
         this.region = region;
     }
+    
     public String getDescripcion(){
         return descripcion;
     }

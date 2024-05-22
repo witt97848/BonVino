@@ -16,4 +16,3 @@ public class GestorDeGeneracionDeReporte {
         this.interfazExcel.exportarExcel();
     }
 }
-    

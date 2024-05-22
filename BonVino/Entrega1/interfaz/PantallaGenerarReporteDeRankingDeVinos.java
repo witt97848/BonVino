@@ -1,4 +1,4 @@
-package Entrega1.clases;
+package Entrega1.Interfaz;
 import javax.swing.JFrame;
 
 public class PantallaGenerarReporteDeRankingDeVinos {

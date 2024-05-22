@@ -1,4 +1,4 @@
-package Entrega1.clases;
+package Entrega1.modelo;
 
 import java.util.Date;
 
@@ -17,32 +17,31 @@ public class Reseña {
         this.vino = vino;
     }
 
-
     public String getComentario() {
         return comentario;
     }
-
+    
     public Date getFechaReseña() {
         return fechaReseña;
     }
-
+    
     public int getPuntaje() {
         return puntaje;
     }
-
+    
     public boolean esPremium() {
         return esPremium;
     }
-
+    
     public Vino getVino() {
         return vino;
     }
-
+    
     public boolean sosDeEnofilo() {
         // TODO: Implementar lógica para determinar si el autor de la reseña es un enófilo
         return false;
     }
-
+    
     public boolean sosDeSommelier() {
         // TODO: Implementar lógica para determinar si el autor de la reseña es un sommelier
         return false;
