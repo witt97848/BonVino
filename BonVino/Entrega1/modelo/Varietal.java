@@ -1,3 +1,4 @@
+package Entrega1.modelo;
 
 
 public class Varietal{

@@ -22,6 +22,8 @@ public class MenuPrincipal{
         botonGenerarReporte.setBounds(100, 50, 500, 50);
         botonGenerarReporte.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
+                // Mensaje de opcionGenerarRankingDeVino();
+                // (Primer mensaje que se ve en el diagrama de secuencia del CU24)
                 pantallaRankingDeVinos = new PantallaGenerarReporteDeRankingDeVinos();
                 pantallaRankingDeVinos.opcionGenerarRankingDeVino();
             }
@@ -45,10 +47,9 @@ public class MenuPrincipal{
     }
 
     public static void main(String[] args){
-
-        //GestorDeGeneracionDeReporte gestor = new GestorDeGeneracionDeReporte();
-
         MenuPrincipal menu = new MenuPrincipal();
+        
+        // Mensaje 1 del DS ____________________________________________________
         menu.habilitarPantalla();
     }
 }
