@@ -1,6 +1,10 @@
 package Entrega1.interfaz;
 
 public class InterfazExcel {
+
+    public InterfazExcel() {
+        
+    }
     public void exportarExcel(){
         try {
             Thread.sleep(2000);
