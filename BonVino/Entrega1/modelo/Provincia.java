@@ -1,10 +1,12 @@
 package Entrega1.modelo;
 
+import java.util.ArrayList;
+
 public class Provincia{
     private String nombre;
-    private RegionVitivinicola[] regiones;
+    private ArrayList<RegionVitivinicola> regiones;
     
-    public Provincia(String nombre, Pais pais, RegionVitivinicola[] regiones){
+    public Provincia(String nombre, ArrayList<RegionVitivinicola> regiones){
         this.nombre = nombre;
         this.regiones = regiones;
     }
@@ -13,7 +15,7 @@ public class Provincia{
         return nombre;
     }
     
-    public RegionVitivinicola[] getRegiones(){
+    public ArrayList<RegionVitivinicola> getRegiones(){
         return regiones;
     }
     
@@ -25,5 +27,8 @@ public class Provincia{
         }
         return false;
     }
-    
+
+    public String toString(){
+        return "Nombre: " + nombre;
+    }
 }

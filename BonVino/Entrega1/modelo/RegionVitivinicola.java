@@ -16,8 +16,17 @@ public class RegionVitivinicola{
     public String getDescripcion(){
         return descripcion;
     }
-    
-    public Pais conocerPais(){
-        return null;
-    }
+
+    // public Provincia getProvincia(ArrayList<Pais> paises){
+    //     for (Pais cadaPais : paises) {
+    //         for (Provincia cadaProvincia : cadaPais.getProvincias()) {
+    //             for (RegionVitivinicola cadaRegion : cadaProvincia.getRegiones()) {
+    //                 if(cadaRegion == this){
+    //                     return cadaProvincia;
+    //                 }
+    //             }
+    //         }
+    //     }
+    //     return null;
+    // }
 }

@@ -1,0 +1,94 @@
+{
+    "paises":
+    [
+        {
+            "nombre": "Argentina",
+            "provincias": 
+            [ 
+                {
+                    "nombre":"Mendoza", 
+                    "regiones":
+                    [
+                        {
+                            "nombre":"Valle de Uco",
+                            "descripcion":"Conocida por la calidad de sus vinos tintos, especialmente los Malbec, Cabernet Sauvignon, Syrah y Merlot."
+                        },
+                        {
+                            "nombre":"Lujan de Cuyo",
+                            "descripcion":"Conocida por la calidad de sus vinos tintos, especialmente los Malbec, Cabernet Sauvignon, Syrah y Merlot."
+                        },
+                        {
+                            "nombre":"Maipu",
+                            "descripcion":"Conocida por la calidad de sus vinos tintos, especialmente los Malbec, Cabernet Sauvignon, Syrah y Merlot."
+
+                        }
+                    ]
+                },
+                {
+                    "nombre":"Salta",
+                    "regiones":
+                    [
+                        {
+                            "nombre":"Cafayate",
+                            "descripcion":"Conocida por la calidad de sus vinos blancos, especialmente los Torrontes."
+                        }
+                    ]
+                },
+                {
+                    "nombre":"San Juan",
+                    "regiones":
+                    [
+                        {
+                            "nombre":"Valle de Tulum",
+                            "descripcion":"Conocida por la calidad de sus vinos tintos, especialmente los Syrah."
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "nombre": "Chile",
+            "provincias": 
+            [ 
+                {
+                    "nombre":"Valle Central", 
+                    "regiones":
+                    [
+                        {
+                            "nombre":"Maipo",
+                            "descripcion":"Conocida por la calidad de sus vinos tintos, especialmente los Cabernet Sauvignon."
+                        },
+                        {
+                            "nombre":"Casablanca",
+                            "descripcion":"Conocida por la calidad de sus vinos blancos, especialmente los Sauvignon Blanc y Chardonnay."
+                        },
+                        {
+                            "nombre":"Colchagua",
+                            "descripcion":"Conocida por la calidad de sus vinos tintos, especialmente los Carmenere."
+                        }
+                    ]
+                },
+                {
+                    "nombre":"Valle de Aconcagua",
+                    "regiones":
+                    [
+                        {
+                            "nombre":"Aconcagua",
+                            "descripcion":"Conocida por la calidad de sus vinos tintos, especialmente los Syrah."
+                        }
+                    ]
+                },
+                {
+                    "nombre":"Valle de Maule",
+                    "regiones":
+                    [
+                        {
+                            "nombre":"Maule",
+                            "descripcion":"Conocida por la calidad de sus vinos tintos, especialmente los Cabernet Sauvignon."
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

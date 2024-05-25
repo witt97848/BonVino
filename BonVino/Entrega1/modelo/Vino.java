@@ -3,23 +3,21 @@ package Entrega1.modelo;
 
 import java.util.ArrayList; // Import ArrayList
 import java.util.Date;
+import java.util.Random; // Import Random
 
 public class Vino {
-    private int añada;
     private String nombre;
-    private double notaDeCataBodeta;
-    private double precioARS;
     private ArrayList<Reseña> reseñas;
+    private ArrayList<Varietal> varietales;
     private Bodega bodega;
+    private Random random = new Random(); // Create a Random object
 
     // Add a constructor to initialize all attributes
-    public Vino(int añada, String nombre, double notaDeCataBodeta, double precioARS, ArrayList<Reseña> reseñas, Bodega bodega){
-        this.añada = añada;
+    public Vino(String nombre, Bodega bodega){
         this.nombre = nombre;
-        this.notaDeCataBodeta = notaDeCataBodeta;
-        this.precioARS = precioARS;
-        this.reseñas = reseñas;
+        this.reseñas = new ArrayList<>();
         this.bodega = bodega;
+        this.varietales = new ArrayList<>();
     }
     
     public ArrayList<Reseña> tomarReseñasDeVinoEnPeriodo(Date fechaDesde, Date fechaHasta){
@@ -34,20 +32,8 @@ public class Vino {
         return arrayTemporal;
     }
 
-    public int getAñada(){
-        return añada;
-    }
-    
     public String getNombre(){
         return nombre;
-    }
-    
-    public double getNotaDeCataBodeta(){
-        return notaDeCataBodeta;
-    }
-    
-    public double getPrecioARS(){
-        return precioARS;
     }
     
     public ArrayList<Reseña> getReseñas(){
@@ -57,5 +43,60 @@ public class Vino {
     public Bodega getBodega(){
         return bodega;
     }
+
+    public void testCrearReseñasAleatorias(){
+        // Reseña(String comentario, boolean esPremium, Date fechaReseña, int puntaje, Vino vino)
+        int cantidadReseñas = random.nextInt(20);
+        for (int i = 0; i <= cantidadReseñas; i++){
+            long fechaDesde = new Date(2015, 0, 1).getTime();
+            long fechaHasta = new Date(2024, 4, 25).getTime();
+            Date fechaRandom = new Date(random.nextLong(fechaDesde,fechaHasta)); // Use nextLong() method to generate a random long value
+            Reseña reseña = new Reseña("Comentario" + i, random.nextBoolean(), fechaRandom, random.nextInt(10), this);
+            reseñas.add(reseña);
+        }
+    }
+
+    public void testCrearVarietal(){
+        int cantidadVarietales = random.nextInt(1,5);
+        String[] descripcionesVarietales = {"Malbec", "Cabernet Sauvignon", "Merlot", "Syrah", "Bonarda", "Petit Verdot", "Tannat", "Pinot Noir", "Chardonnay", "Sauvignon Blanc", "Semillón", "Torrontés", "Viognier", "Riesling", "Gewürztraminer", "Malbec Rosé", "Cabernet Franc", "Malbec Blend", "Cabernet Sauvignon Blend", "Merlot Blend", "Syrah Blend", "Bonarda Blend", "Petit Verdot Blend", "Tannat Blend", "Pinot Noir Blend", "Chardonnay Blend", "Sauvignon Blanc Blend", "Semillón Blend", "Torrontés Blend", "Viognier Blend", "Riesling Blend", "Gewürztraminer Blend", "Malbec Rosé Blend", "Cabernet Franc Blend"};
+
+        for (int i = 0; i <= cantidadVarietales; i++){
+            varietales.add(new Varietal(descripcionesVarietales[random.nextInt(descripcionesVarietales.length - 1)]));
+        }
+    }
+
+    public String toStringVarietales(){
+        String cad = "";
+        for (Varietal cadaVarietal : varietales){
+            cad += "\n- " + cadaVarietal.getDescripcion();
+        }
+        return cad;
+    }
+
+    public String toStringReseñas(){
+        String cad = "";
+        for (Reseña cadaReseña : reseñas){
+            cad += "-------------------------\n" + cadaReseña.toString() + "\n";
+        }
+        return cad;
+    }
+
+
+
+    public String toString(){
+        String cad = "==========================================================\n" + 
+        "Vino: " + nombre + 
+        "\n...................................................\n" + 
+        "Bodega\n" + bodega.toString() + 
+        "\n...................................................\n" + 
+        "Region:\n" + bodega.toString() + 
+        "\n...................................................\n" + 
+        "Varietales: " + toStringVarietales() + 
+        "\n...................................................\n" + 
+        "Reseñas\n" + toStringReseñas() + 
+        "==========================================================\n";
+        return cad;
+    }
+
 
 }

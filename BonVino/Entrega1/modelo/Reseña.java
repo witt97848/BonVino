@@ -51,4 +51,8 @@ public class Reseña {
         // TODO: Implementar lógica para determinar si el autor de la reseña es un sommelier
         return false;
     }
+
+    public String toString() {
+        return "Comentario: " + comentario + "\nPuntaje: " + puntaje + "\nFecha: " + fechaReseña.getDate() + "/" + fechaReseña.getMonth() + "/" + fechaReseña.getYear();
+    }
 }

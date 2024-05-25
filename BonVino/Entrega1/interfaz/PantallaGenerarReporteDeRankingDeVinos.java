@@ -20,13 +20,13 @@ public class PantallaGenerarReporteDeRankingDeVinos {
     private GestorDeGeneracionDeReporte gestor;
     private InterfazExcel interfazExcel;
     private JFrame frame;
-    private JLabel labelImagenLogo, labelFechaDesde, labelFechaHasta;
+    private JLabel labelImagenLogo, labelFechaDesde, labelFechaHasta, labelImagenTitulo;
     private JLabel labelTipoDeReseña;
     private JLabel labelFormatoVisualizacion;
     private JTextField inputFechaDesde, inputFechaHasta;
     private JComboBox comboBoxTipoDeReseña;
     private JComboBox comboBoxFormatoVisualizacion;
-    private JButton btnTomarFechaDesdeFechaHasta;
+    private JButton btnTomarFechaDesdeFechaHasta, btnCancelarCU, btnTomarTipoDeReseña, btnTomarFormatoVisualizacion;
     private ImageIcon imagenLogo;
     
     public PantallaGenerarReporteDeRankingDeVinos(){
@@ -35,13 +35,25 @@ public class PantallaGenerarReporteDeRankingDeVinos {
 
     // Creamos la pantalla para generar el reporte de ranking de vinos
     public void habilitarPantalla(){
-        
+        // Buttons _____________________________________________________________
+        btnCancelarCU = new JButton("Cancelar");
+        btnCancelarCU.setBounds(800, 500, 150, 45);
+        btnCancelarCU.setBackground(new Color(200,200,200));
+        btnCancelarCU.setForeground(new Color(102, 66, 138));
+        btnCancelarCU.setFont(new Font("Lucida Grande", Font.PLAIN, 18));
+        btnCancelarCU.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e)
+            {
+                gestor.finCU();
+            }
+        });
+
         // Frame _______________________________________________________________
         frame = new JFrame("Generar Ranking de Vinos");
         frame.setLayout(null);
         frame.setBounds(0,0,1000,600);
         frame.setLocationRelativeTo(null);
-        frame.getContentPane().setBackground(new java.awt.Color(20,20,20));
+        frame.getContentPane().setBackground(new java.awt.Color(30,15,35));
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setResizable(false);
@@ -50,8 +62,17 @@ public class PantallaGenerarReporteDeRankingDeVinos {
         // Imagenes ____________________________________________________________
         ImageIcon imagenLogo = new ImageIcon(getClass().getResource("../images/LogoPPAI.png"));
 		labelImagenLogo = new JLabel(imagenLogo);
-		labelImagenLogo.setBounds(50,50,150,150);
+		labelImagenLogo.setBounds(60,80,150,150);
+
+        ImageIcon imagenTitulo = new ImageIcon(getClass().getResource("../images/TituloGrupo.png"));
+		labelImagenTitulo = new JLabel(imagenTitulo);
+		labelImagenTitulo.setBounds(50,250,170,170);
+
+
+        // Agregar elementos al frame
+        frame.add(btnCancelarCU);
         frame.add(labelImagenLogo);
+        frame.add(labelImagenTitulo);
 
         System.out.println("Pantalla habilitada");
         frame.setVisible(true);
@@ -65,9 +86,8 @@ public class PantallaGenerarReporteDeRankingDeVinos {
         gestor.generarRankingDeVino();
     }
 
-    // Paso 2, 3, 4
+    // HECHO
     public void solicitarFechaDesdeYFechaHasta() {
-        System.out.println("Comienza solicitarFechaDesdeYFechaHasta");
         // TextFields___________________________________________________________
         inputFechaDesde = new JTextField();
         inputFechaDesde.setBounds(250, 100, 160, 45);
@@ -81,12 +101,14 @@ public class PantallaGenerarReporteDeRankingDeVinos {
 
         // Labels ______________________________________________________________
         labelFechaDesde = new JLabel("Fecha desde: [dd/mm/yyyy]");
-        labelFechaDesde.setBounds(250, 70, 160, 20);
+        labelFechaDesde.setBounds(250, 70, 160, 15);
         labelFechaDesde.setForeground(Color.WHITE);
+        labelFechaDesde.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
         
         labelFechaHasta = new JLabel("Fecha hasta: [dd/mm/yyyy]");
-        labelFechaHasta.setBounds(430, 70, 160, 20);
+        labelFechaHasta.setBounds(430, 70, 160, 15);
         labelFechaHasta.setForeground(Color.WHITE);
+        labelFechaHasta.setFont(new Font("Lucida Grande", Font.PLAIN, 17));
 
         // Buttons _____________________________________________________________
         btnTomarFechaDesdeFechaHasta = new JButton("Tomar fechas");
@@ -105,13 +127,13 @@ public class PantallaGenerarReporteDeRankingDeVinos {
                     // ______________________________________ Mensaje 6 del DS
                     if (validarFechas(fechas[0], fechas[1])){
                         System.out.println("Fechas válidas");
-
                         // _______________________________________________ Mensaje 7 del DS
+                        
                         btnTomarFechaDesdeFechaHasta.setVisible(false);
-                        inputFechaDesde.setVisible(false);
-                        inputFechaHasta.setVisible(false);
                         labelFechaDesde.setVisible(false);
                         labelFechaHasta.setVisible(false);
+                        inputFechaDesde.setVisible(false);
+                        inputFechaHasta.setVisible(false);
                         gestor.fechaDesdeFechaHasta(fechas[0], fechas[1]);
                     }
                     else{
@@ -126,14 +148,14 @@ public class PantallaGenerarReporteDeRankingDeVinos {
         });
 
         // Agregar elementos al frame
+        frame.add(labelFechaDesde);
         frame.add(inputFechaDesde);
+        frame.add(labelFechaHasta);
         frame.add(inputFechaHasta);
         frame.add(btnTomarFechaDesdeFechaHasta);
-        frame.add(labelFechaDesde);
-        frame.add(labelFechaHasta);
     }
 
-    // 
+    // HECHO
     public void solicitarTipoDeReseña(){
         // Labels ______________________________________________________________
         labelTipoDeReseña = new JLabel("Seleccione tipo de reseña:");
@@ -149,93 +171,128 @@ public class PantallaGenerarReporteDeRankingDeVinos {
         comboBoxTipoDeReseña.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
         
         // Buttons _____________________________________________________________
-        JButton btnTomarTipoDeReseña = new JButton("Tomar tipo de reseña");
+        btnTomarTipoDeReseña = new JButton("Tomar tipo de reseña");
         btnTomarTipoDeReseña.setBounds(620, 180, 150, 45);
         btnTomarTipoDeReseña.setBackground(new Color(102, 66, 138));
         btnTomarTipoDeReseña.setForeground(Color.WHITE);
         btnTomarTipoDeReseña.setFont(new Font("Lucida Grande", Font.PLAIN, 18));
 
-        // Evento para tomar la selección del tipo de reseña
-        btnTomarTipoDeReseña.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e)
-            {
-                if (comboBoxTipoDeReseña.getSelectedItem().equals("Sommelier")){
-                    gestor.tomarTipoReseñaSeleccionada(comboBoxTipoDeReseña.getSelectedItem().toString());
-                    btnTomarTipoDeReseña.setVisible(false);
-                    comboBoxTipoDeReseña.setVisible(false);
-                    labelTipoDeReseña.setVisible(false);
-                }
-            }
-        });
-
         // Agregar elementos al frame
         frame.add(labelTipoDeReseña);
         frame.add(comboBoxTipoDeReseña);
         frame.add(btnTomarTipoDeReseña);
+
+        labelTipoDeReseña.setVisible(true);
+        comboBoxTipoDeReseña.setVisible(true);
+        btnTomarTipoDeReseña.setVisible(true);
+
+        // Evento para tomar la selección del tipo de reseña
+        btnTomarTipoDeReseña.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e)
+            {
+                String seleccionTipoReseña = tomarSeleccionTipoReseña();
+                if (seleccionTipoReseña == "Sommelier"){
+                    
+                    // Bloqueamos los elementos de la pantalla
+                    btnTomarTipoDeReseña.setVisible(false);
+                    comboBoxTipoDeReseña.setVisible(false);
+                    labelTipoDeReseña.setVisible(false);
+
+                    // Flujo de control hacia el gestor
+                    gestor.tomarTipoReseñaSeleccionada(seleccionTipoReseña);
+                }
+            }
+        });
     }
 
-    //
+    // HECHO
     public String tomarSeleccionTipoReseña(){
         return comboBoxTipoDeReseña.getSelectedItem().toString();
     }
 
-    //
+    // HECHO
     public void solicitarFormatoVisualizacion(){
         // Labels ______________________________________________________________
         labelFormatoVisualizacion = new JLabel("Seleccione Formato de visualizacion:");
-        labelFormatoVisualizacion.setBounds(250, 150, 160, 20);
+        labelFormatoVisualizacion.setBounds(250, 230, 160, 20);
         labelFormatoVisualizacion.setForeground(Color.WHITE);
 
         // ComboBox ____________________________________________________________
         comboBoxFormatoVisualizacion = new JComboBox();
         comboBoxFormatoVisualizacion.addItem("EXCEL (.xslx)");
         comboBoxFormatoVisualizacion.addItem("otro");
-        comboBoxFormatoVisualizacion.setBounds(250, 180, 160, 45);
+        comboBoxFormatoVisualizacion.setBounds(250, 260, 160, 45);
         comboBoxFormatoVisualizacion.setBackground(new Color(240,240,240));
         comboBoxFormatoVisualizacion.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
         
         // Buttons _____________________________________________________________
-        JButton btnTomarFormatoVisualizacion = new JButton("Tomar tipo de reseña");
-        btnTomarFormatoVisualizacion.setBounds(620, 180, 150, 45);
+        btnTomarFormatoVisualizacion = new JButton("Tomar tipo de reseña");
+        btnTomarFormatoVisualizacion.setBounds(620, 260, 150, 45);
         btnTomarFormatoVisualizacion.setBackground(new Color(102, 66, 138));
         btnTomarFormatoVisualizacion.setForeground(Color.WHITE);
         btnTomarFormatoVisualizacion.setFont(new Font("Lucida Grande", Font.PLAIN, 18));
-
-        // Evento para tomar la selección del tipo de reseña
-        btnTomarFormatoVisualizacion.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e)
-            {
-                if (comboBoxTipoDeReseña.getSelectedItem().equals("Sommelier")){
-                    String seleccionFormato = tomarSeleccionFormato();
-                    gestor.tomarSeleccionFormato(seleccionFormato);
-
-                    // Ocultamos los elementos de la pantalla___________
-                    btnTomarFormatoVisualizacion.setVisible(false);
-                    comboBoxFormatoVisualizacion.setVisible(false);
-                    labelFormatoVisualizacion.setVisible(false);
-                }
-            }
-        });
 
         // Agregar elementos al frame
         frame.add(comboBoxFormatoVisualizacion);
         frame.add(btnTomarFormatoVisualizacion);
         frame.add(labelFormatoVisualizacion);
+
+        comboBoxFormatoVisualizacion.setEnabled(true);
+        btnTomarFormatoVisualizacion.setVisible(true);
+        labelFormatoVisualizacion.setEnabled(true);
+        
+
+        // Evento para tomar la selección del tipo de reseña
+        btnTomarFormatoVisualizacion.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e)
+            {
+                String seleccionFormato = tomarSeleccionFormato();
+                if (seleccionFormato == "EXCEL (.xslx)"){
+                    // Ocultamos los elementos de la pantalla___________
+                    // btnTomarFormatoVisualizacion.setVisible(false);
+                    // comboBoxFormatoVisualizacion.setVisible(false);
+                    // labelFormatoVisualizacion.setVisible(false);
+
+                    btnTomarFormatoVisualizacion.setEnabled(false);
+                    comboBoxFormatoVisualizacion.setEnabled(false);
+
+                    gestor.tomarSeleccionFormato(seleccionFormato);
+                }
+            }
+        });
     }
 
-    //
+    // HECHO
     public String tomarSeleccionFormato(){
         return comboBoxFormatoVisualizacion.getSelectedItem().toString();
     }
 
-    // 
+    // HECHO
     public void solicitarConfirmacion(){
-        // TODO
+        Object[] options = {"Aceptar", "Cancelar"};
+        int choice = JOptionPane.showOptionDialog(null, 
+                        "¿Deseas continuar?", 
+                        "Confirmación", 
+                        JOptionPane.YES_NO_OPTION, 
+                        JOptionPane.QUESTION_MESSAGE, 
+                        null, 
+                        options, 
+                        options[0]);
+        // Verificar la opción seleccionada por el usuario
+        if (choice == JOptionPane.YES_OPTION) {
+            // El usuario seleccionó "Aceptar"
+            System.out.println("Se seleccionó Aceptar");
+            confirmarGeneracionReporte();
+        } else if (choice == JOptionPane.NO_OPTION) {
+            // El usuario seleccionó "Cancelar" o cerró el diálogo
+            System.out.println("Se seleccionó Cancelar o se cerró el diálogo");
+            gestor.tomarConfirmacion("NO");
+        }
     }
     
-    //
+    // HECHO
     public void confirmarGeneracionReporte(){
-        // TODO
+        gestor.tomarConfirmacion("SI");
     }
 
     //
@@ -267,4 +324,7 @@ public class PantallaGenerarReporteDeRankingDeVinos {
         }
     }
     
+    public void cerrar(){
+        frame.dispose();
+    }
 }
