@@ -29,9 +29,11 @@ public class Vino {
         ArrayList<Reseña> arrayTemporal = new ArrayList<>(); // Change array type to ArrayList<Reseña>
         for (Reseña cadaReseña : reseñas){
             if (cadaReseña.sosDelPeriodo(fechaDesde, fechaHasta) && cadaReseña.sosPremium()){
+                // System.out.println(getNombre() + "=======>" + cadaReseña.toString());
                 arrayTemporal.add(cadaReseña); // Use add() method to add each Reseña object to the arrayTemporal list
             }
         }
+        
         return arrayTemporal;
     }
 
@@ -45,9 +47,7 @@ public class Vino {
     
     public Bodega getBodega(){
         return bodega;
-    }
-
-    // public getRegionYPais(){}
+    }    
 
     // TODO cambiar nombre de calcularPromedioDeLasReseñas() en el diagrama
     public Float getPromedioPuntajeSommelier(){
@@ -64,16 +64,45 @@ public class Vino {
         return promedio;
     }
 
+    public Float getPromedioPuntaje(){
+        Float promedio = 0.0f;
+        int sumatoria = 0;
+        if (reseñas.size() > 0){
+            for (Reseña cadaReseña : reseñas){
+                sumatoria += cadaReseña.getPuntaje();
+            }
+            promedio = (float) (sumatoria / reseñas.size());
+        }
+        return promedio;
+    }
+
+    public Float getPrecioSugerido(){
+        return precioSugerido;
+    }
+
+    public Pais conocerPais(ArrayList<Pais> paises, ArrayList<Provincia> provincias){
+        RegionVitivinicola regionDelVino = getBodega().getRegion();
+        Pais suPais = regionDelVino.conocerPais(paises, provincias);
+        return suPais;
+    }
+
     public void testCrearReseñasAleatorias(){
-        // Reseña(String comentario, boolean esPremium, Date fechaReseña, int puntaje, Vino vino)
-        int cantidadReseñas = random.nextInt(20);
+        String[] com1 = {"Muy", "Demasiado", "Bastante", "Poco", "Nada"};
+        String[] com2 = {"rico", "amargo", "dulce", "suave", "fuerte", "sabroso", "asqueroso", "delicioso", "horrible", "bueno", "malo", "regular", "excelente", "pésimo", "espectacular", "normal", "extraño", "raro", "común", "incomún", "único", "especial", "particular", "distinto", "diferente", "único", "original", "nuevo", "viejo", "antiguo", "moderno", "actual", "pasado", "futuro", "presente", "eterno", "temporal"};
+        
+        int cantidadReseñas = random.nextInt(30);
         for (int i = 0; i <= cantidadReseñas; i++){
-            long fechaDesde = new Date(2015, 0, 1).getTime();
+            String comRandom = com1[random.nextInt(com1.length - 1)] + " " + com2[random.nextInt(com2.length - 1)];
+            long fechaDesde = new Date(2015, 1, 1).getTime();
             long fechaHasta = new Date(2024, 4, 25).getTime();
             Date fechaRandom = new Date(random.nextLong(fechaDesde,fechaHasta)); // Use nextLong() method to generate a random long value
-            Reseña reseña = new Reseña("Comentario" + i, random.nextBoolean(), fechaRandom, random.nextInt(10), this);
+            Reseña reseña = new Reseña(comRandom, random.nextBoolean(), fechaRandom, random.nextInt(100), this);
             reseñas.add(reseña);
         }
+    }
+
+    public ArrayList<Varietal> getVarietales(){
+        return varietales;
     }
 
     public void testCrearVarietal(){
@@ -107,7 +136,7 @@ public class Vino {
         "\n...................................................\n" + 
         "Bodega\n" + bodega.toString() + 
         "\n...................................................\n" + 
-        "Region:\n" + bodega.toString() + 
+        "Region:\n" + bodega.getRegion().toString() + 
         "\n...................................................\n" + 
         "Varietales: " + toStringVarietales() + 
         "\n...................................................\n" + 

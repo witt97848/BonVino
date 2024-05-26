@@ -20,7 +20,7 @@ public class GestorDeGeneracionDeReporte {
     public InterfazExcel interfazExcel;
     private Date fechaDesde, fechaHasta;
     private String seleccionTipoReseñas, seleccionFormatoVisualizacion, formatoVisualizacion;
-    private ArrayList<Vino> vinos = new ArrayList<Vino>();
+    private ArrayList<Vino> todosLosVinos = new ArrayList<Vino>();
 
     private ArrayList<Pais> paises = new ArrayList<Pais>();
     private ArrayList<Provincia> provincias = new ArrayList<Provincia>();
@@ -28,7 +28,7 @@ public class GestorDeGeneracionDeReporte {
     private ArrayList<Bodega> bodegas = new ArrayList<Bodega>();
     private Random random = new Random();
 
-    private Map<Vino, Float> promediosCadaVino = new HashMap<>();
+    private Map<Vino, Float> promediosCadaVinoSommelier = new HashMap<>();
     private Map<Vino, ArrayList<Reseña>> reseñasCadaVino = new HashMap<>();
 
     public GestorDeGeneracionDeReporte(PantallaGenerarReporteDeRankingDeVinos pantalla){
@@ -36,15 +36,30 @@ public class GestorDeGeneracionDeReporte {
         this.interfazExcel = new InterfazExcel();
     }
     
+    // IMPORTANTE ----------------------------------------------------------------------------------
     public void generarRankingDeVino(){
+
+        // 1. Se generaran Datos aleatorios para el ranking de vinos
         System.out.println("Se generaran Datos aleatorios para el ranking de vinos: ");
+        testCrearPaisesProvinciasYRegiones(); // Creamos paises, provincias y regiones
         generarVinosRandom(); // Agregamos a vinos los vinos creados
-        for (Vino vino : vinos){
-            System.out.println(vino.toString());
+        
+        // 2. Se muestran los paises, provincias y regiones creados
+        for (Pais pais : paises){
+            System.out.println(pais.toString());
+            for (Provincia provincia : pais.getProvincias()){
+                System.out.println("├─ " + provincia.toString());
+                for (RegionVitivinicola region : provincia.getRegiones()){
+                    System.out.println("│  ├─ " + region.getNombre());
+                }
+            }
         }
-        pantalla.solicitarFechaDesdeYFechaHasta(); // Mensaje 4 del DS
+
+        // Mensaje 4 del DS
+        pantalla.solicitarFechaDesdeYFechaHasta(); 
     };
         
+    // HECHO
     public void fechaDesdeFechaHasta(Date fechaDesde, Date fechaHasta){
         this.fechaDesde = fechaDesde;
         this.fechaHasta = fechaHasta;
@@ -66,51 +81,122 @@ public class GestorDeGeneracionDeReporte {
     // HECHO
     public void tomarConfirmacion(String confirmacion){
         if(confirmacion.equals("SI")){
-            generarVinosRandom();
             buscarVinosConReseñaSolicitada();
-
         } else {
             finCU();
         }
-        //pantalla.mostrarMensaje("Generando reporte...");
     }
 
+    // HECHO
     public void buscarVinosConReseñaSolicitada(){
         System.out.println("Buscando vinos con reseñas solicitadas...");
 
-        for (Vino vino : vinos){
-            reseñasCadaVino.put(vino, vino.tomarReseñasDeVinoEnPeriodo(fechaDesde, fechaHasta));
-            promediosCadaVino.put(vino, vino.getPromedioPuntajeSommelier());
+        for (Vino vino : todosLosVinos){
+            if (vino.tomarReseñasDeVinoEnPeriodo(fechaDesde, fechaHasta).size()>0){
+                reseñasCadaVino.put(vino, vino.tomarReseñasDeVinoEnPeriodo(fechaDesde, fechaHasta));
+                promediosCadaVinoSommelier.put(vino, vino.getPromedioPuntajeSommelier());
+            }
         }
-
+        
         generarArchivo();
 
     }
 
-    public void generarArchivo(){
-        // TODO
-        System.out.println("Generando archivo...");
+    // HECHO
+    public ArrayList<Vino> ordenarVinosSegunCalificacion(){
+        ArrayList<Vino> vinosOrdenados = new ArrayList<Vino>();
 
-
-
-        // Imprimimos, toString, de las reseñas del Map reseñasCadaVino
-        System.out.println("/////////////////////////////////\nReseñas de cada vino: \n");
-        for (Map.Entry<Vino, ArrayList<Reseña>> entry : reseñasCadaVino.entrySet()) {
-            System.out.println("---------------------------------");
-            System.out.println("=== VINO: " + entry.getKey().getNombre());
-            for (Reseña reseña : entry.getValue()){
-                System.out.println(reseña.toString());
-                System.out.println(entry.getKey().getPromedioPuntajeSommelier());
-                System.out.println();
+        for (Vino vino : reseñasCadaVino.keySet()){
+            Float promedioSommelier = vino.getPromedioPuntajeSommelier();
+            if (vinosOrdenados.size() == 0){
+                vinosOrdenados.add(vino);
+            } else {
+                if (promedioSommelier > promediosCadaVinoSommelier.get(vinosOrdenados.get(0))){
+                    vinosOrdenados.add(0, vino);
+                } else {
+                    for (int i = 0; i < vinosOrdenados.size(); i++){
+                        if (promedioSommelier > promediosCadaVinoSommelier.get(vinosOrdenados.get(i))){
+                            vinosOrdenados.add(i, vino);
+                            break;
+                        }
+                    
+                    }
+                }
             }
         }
+        return vinosOrdenados;
     }
 
-    public Vino[] ordenarVinosSegunCalificacion(){
+    // HECHO
+    public void generarArchivo(){
         // TODO
-        return null;
+        
+        // Escogemos los primeros 10 vinos ordenados segun la calificacion del sommelier.
+        ArrayList<Vino> vinosOrdenados = ordenarVinosSegunCalificacion();
+        ArrayList<Vino> vinosTop10 = new ArrayList<>();
+        if (vinosOrdenados.size() < 10){
+            vinosTop10 = new ArrayList<>(vinosOrdenados.subList(0, vinosOrdenados.size()));
+        }
+        else{
+            vinosTop10 = new ArrayList<>(vinosOrdenados.subList(0, 10));
+        }
+        
+        // Creamos el archivo Excel
+             
+        ArrayList<String> filas = new ArrayList<>();
+
+        System.out.println("cantidad de paises registrados: " + paises.size());
+        for(Pais pais : paises){
+            System.out.println("Pais: " + pais.getNombre());
+        }
+        System.out.println("cantidad de provincias registradas: " +  provincias.size());
+        System.out.println("cantidad de regiones registradas:" + regiones.size());
+        
+        for (Vino vino : vinosTop10){
+            Pais paisDelVino = vino.conocerPais(paises, provincias);
+            int top = vinosTop10.indexOf(vino) + 1;
+            String varietales = "[";
+            for (int i = 0; i < vino.getVarietales().size(); i++){
+                if (i < vino.getVarietales().size() - 1){
+                    varietales += "'" + vino.getVarietales().get(i).getDescripcion() + "', ";
+                } else {
+                    varietales += "'" + vino.getVarietales().get(i).getDescripcion() + "'";
+                }
+            }
+            varietales += "]";
+            
+
+            String fila = 
+            "{" + top + "," +
+            "'nombre':'" + vino.getNombre() + "," +
+            "'calificacionSommelier':" + promediosCadaVinoSommelier.get(vino) + "," +
+            "'calificacionGeneral':" + vino.getPromedioPuntaje() + "," +
+            "'precioSugerido': " + vino.getPrecioSugerido() + "," + 
+            "'bodega': " + vino.getBodega().getNombre() + "," + 
+            "'Varietal': " + varietales + "," + 
+            "'Region': " + vino.getBodega().getRegion().getNombre() + "," +
+            "'Pais': " + paisDelVino.getNombre() +
+            "},";
+
+            filas.add(fila);
+        }
+        
+        System.out.println("########################");
+        System.out.println("Top 10 de Vinos");
+        for (String fila : filas){
+            System.out.println(fila);
+        }
+        System.out.println("########################");
+
+        interfazExcel.exportarExcel(this, filas);
     }
 
+    // HECHO
+    public void tomarArchivoGenerado(){
+        pantalla.mostrarGeneracionDeArchivo();
+    }
+
+    // HECHO
     private void testCrearPaisesProvinciasYRegiones(){
         regiones.add(new RegionVitivinicola("Maipu", "Región vitivinícola de Argentina, Mendoza"));
         regiones.add(new RegionVitivinicola("Valle de Uco", "Región vitivinícola de Argentina, Mendoza"));
@@ -119,12 +205,11 @@ public class GestorDeGeneracionDeReporte {
         regiones.add(new RegionVitivinicola("Region del Sur", "Región vitivinícola de Argentina, Neuquén"));
 
         Provincia mendoza = new Provincia("Mendoza", new ArrayList<>(regiones.subList(0, 3)));
-        provincias.add(mendoza);
-
         Provincia sanJuan = new Provincia("San Juan", new ArrayList<>(regiones.subList(3, 4)));
-        provincias.add(sanJuan);
-
         Provincia neuquen = new Provincia("Neuquén", new ArrayList<>(regiones.subList(4, 5)));
+        
+        provincias.add(mendoza);
+        provincias.add(sanJuan);
         provincias.add(neuquen);
 
         paises.add(new Pais("Argentina"));
@@ -134,35 +219,47 @@ public class GestorDeGeneracionDeReporte {
                 pais.agregarProvincia(provincia);
             }
         }
+        System.out.println("Paises, provincias y regiones creados");
     }
 
+    // HECHO
     private void generarVinosRandom(){
-        // TODO
-        testCrearPaisesProvinciasYRegiones();
+        System.out.println("Generando vinos");
         for (int i = 0; i < 5; i++){
             Bodega bodega = bodegaRandom();
             bodegas.add(bodega);
         }
-        for (int i = 0; i < 15; i++){
-            String nombreRandom = "Vino" + i;
+        for (int i = 0; i < 50; i++){
+            String[] nombres1 = {"Vega", "Peinfold", "Chateau", "CVNE", "Familia"};
+            String[] nombres2 = {"Torres", "Sanchez", "Catena", "Toro"};
+            String nombreRandom = nombres1[random.nextInt(nombres1.length)] + " " + nombres2[random.nextInt(nombres2.length)];
             Float precioRandom = random.nextFloat() * 1000;
-            Vino vino = new Vino(nombreRandom, bodegas.get(random.nextInt(bodegas.size())), precioRandom);
+            Vino vino = new Vino(nombreRandom, bodegas.get(random.nextInt(bodegas.size()-1)), precioRandom);
             vino.testCrearReseñasAleatorias();
             vino.testCrearVarietal();
-            vinos.add(vino);
+            todosLosVinos.add(vino);
+        }
+
+        for (Vino vino : todosLosVinos){
+            System.out.println(vino.toString());
         }
     }
 
+    // HECHO
     private Bodega bodegaRandom(){
-        String[] nombresBodegas = {"Fernandez", "Wine", "Bodega", "Vinos", "Bodeguita", "Bodegon"};
+        String[] nombresBodegas = {"Bodega Catena Zapata", "Bodegas Torres", "Bodegas Muga", "Bodega Viña Real", "Bodega Marqués de Riscal", "Bodegas Emilio Moro", "Bodegas Roda", "Bodega Vega Sicilia", "Bodega López de Heredia", "Bodega La Rioja Alta", "Bodega Pago de Carraovejas", "Bodega Pingus", "Bodegas Valduero", "Bodegas Protos", "Bodega Abadía Retuerta", "Bodega Ramón Bilbao", "Bodega Juan Gil", "Bodegas Cune (CVNE)", "Bodegas Faustino", "Bodegas Marqués de Cáceres"};
         String[] descripcionesBodegas = {"Bodega de vinos", "Bodega de vinos de calidad", "Bodega de vinos de excelencia", "Bodega de vinos de lujo", "Bodega de vinos de alta gama", "Bodega de vinos de baja gama"};
+        
         RegionVitivinicola regionRandom = regiones.get(random.nextInt(regiones.size()));
-        String nombreRandom = nombresBodegas[random.nextInt(nombresBodegas.length - 1)];
-        String descripcionRandom = descripcionesBodegas[random.nextInt(descripcionesBodegas.length - 1)];
+        
+        String nombreRandom = nombresBodegas[random.nextInt(nombresBodegas.length)];
+        String descripcionRandom = descripcionesBodegas[random.nextInt(descripcionesBodegas.length)];
         return new Bodega(descripcionRandom, nombreRandom, regionRandom);
     }
 
+    // HECHO
     public void finCU(){
         pantalla.cerrar();
     }
 }
+

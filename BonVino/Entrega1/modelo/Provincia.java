@@ -28,6 +28,15 @@ public class Provincia{
         return false;
     }
 
+    public Pais conocerPais(ArrayList<Pais> paises){
+        for (Pais cadaPais : paises) {
+            if(cadaPais.esTuProvincia(this)){
+                return cadaPais;
+            }
+        }
+        return null;
+    }
+
     public String toString(){
         return "Nombre: " + nombre;
     }

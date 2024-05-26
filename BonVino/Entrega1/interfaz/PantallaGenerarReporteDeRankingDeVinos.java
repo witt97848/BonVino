@@ -78,6 +78,7 @@ public class PantallaGenerarReporteDeRankingDeVinos {
         frame.setVisible(true);
     }
     
+    // HECHO
     public void opcionGenerarRankingDeVino(){
         // _________________ Mensaje 2 del DS
         habilitarPantalla();
@@ -323,12 +324,16 @@ public class PantallaGenerarReporteDeRankingDeVinos {
         gestor.tomarConfirmacion("SI");
     }
 
-    //
+    // HECHO
     public void mostrarGeneracionDeArchivo(){
-        // TODO
+        ocultarElementos();
+
+        JOptionPane.showMessageDialog(null, "Archivo generado exitosamente.");
+        
+        gestor.finCU();
     }
 
-    //
+    // HECHO
     public Date[] tomarFechaDesdeFechaHasta(){
         Date[] fechas = new Date[2];
 
@@ -345,6 +350,7 @@ public class PantallaGenerarReporteDeRankingDeVinos {
         return fechas;
     }
 
+    // HECHO
     private boolean validarFechas(Date fechaDesde, Date fechaHasta){
         // Validar que fechaDesde no sea mayor que fechaHasta
         if (fechaDesde.after(fechaHasta)) {
@@ -354,6 +360,28 @@ public class PantallaGenerarReporteDeRankingDeVinos {
         }
     }
     
+    // HECHO
+    private void ocultarElementos(){
+        labelFechaDesde.setVisible(false);
+        labelFechaHasta.setVisible(false);
+        labelTipoDeReseña.setVisible(false);
+        labelFormatoVisualizacion.setVisible(false);
+        inputDiaFechaDesde.setVisible(false);
+        inputMesFechaDesde.setVisible(false);
+        inputAñoFechaDesde.setVisible(false);
+        inputDiaFechaHasta.setVisible(false);
+        inputMesFechaHasta.setVisible(false);
+        inputAñoFechaHasta.setVisible(false);
+        comboBoxTipoDeReseña.setVisible(false);
+        comboBoxFormatoVisualizacion.setVisible(false);
+        btnTomarFechaDesdeFechaHasta.setVisible(false);
+        btnCancelarCU.setVisible(false);
+        btnTomarTipoDeReseña.setVisible(false);
+        btnTomarFormatoVisualizacion.setVisible(false);
+        
+    }
+
+    // HECHO
     public void cerrar(){
         frame.dispose();
     }

@@ -41,16 +41,6 @@ public class Reseña {
     public Vino getVino() {
         return vino;
     }
-    
-    public boolean sosDeEnofilo() {
-        // TODO: Implementar lógica para determinar si el autor de la reseña es un enófilo
-        return false;
-    }
-    
-    public boolean sosDeSommelier() {
-        // TODO: Implementar lógica para determinar si el autor de la reseña es un sommelier
-        return false;
-    }
 
     public String toString() {
         return "Comentario: " + comentario + "\nPuntaje: " + puntaje + "\nFecha: " + fechaReseña.getDate() + "/" + fechaReseña.getMonth() + "/" + fechaReseña.getYear() + "\n" + (esPremium ? "Premium" : "No premium");

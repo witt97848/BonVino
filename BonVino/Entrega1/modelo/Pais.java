@@ -30,4 +30,15 @@ public class Pais {
         }
         return false;
     }
+
+    public String mostrarProvincias(){
+        String resultado = "";
+        for (Provincia cadaProvincia : provincias) {
+            resultado += cadaProvincia.toString() + "\n";
+        }
+        return resultado;
+    }
+    public String toString(){
+        return nombre;
+    }
 }
