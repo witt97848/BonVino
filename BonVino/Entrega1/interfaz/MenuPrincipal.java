@@ -3,6 +3,7 @@ package Entrega1.interfaz;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 
@@ -17,6 +18,7 @@ public class MenuPrincipal{
         frame = new JFrame("Menu Principal");
         frame.setLayout(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setIconImage(new ImageIcon(getClass().getResource("../images/LogoPPAI.png")).getImage());
 
         botonGenerarReporte = new JButton("Generar Reporte de Ranking de vinos");
         botonGenerarReporte.setBounds(100, 50, 500, 50);
