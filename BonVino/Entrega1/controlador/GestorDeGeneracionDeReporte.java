@@ -1,6 +1,9 @@
 package Entrega1.controlador;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 import Entrega1.interfaz.InterfazExcel;
@@ -9,12 +12,14 @@ import Entrega1.modelo.Bodega;
 import Entrega1.modelo.Pais;
 import Entrega1.modelo.Provincia;
 import Entrega1.modelo.RegionVitivinicola;
+import Entrega1.modelo.Reseña;
 import Entrega1.modelo.Vino;
 
 public class GestorDeGeneracionDeReporte {
     public PantallaGenerarReporteDeRankingDeVinos pantalla;
     public InterfazExcel interfazExcel;
-    private String fechaDesde, fechaHasta, seleccionTipoReseñas, seleccionFormatoVisualizacion, formatoVisualizacion;
+    private Date fechaDesde, fechaHasta;
+    private String seleccionTipoReseñas, seleccionFormatoVisualizacion, formatoVisualizacion;
     private ArrayList<Vino> vinos = new ArrayList<Vino>();
 
     private ArrayList<Pais> paises = new ArrayList<Pais>();
@@ -22,6 +27,9 @@ public class GestorDeGeneracionDeReporte {
     private ArrayList<RegionVitivinicola> regiones = new ArrayList<RegionVitivinicola>();
     private ArrayList<Bodega> bodegas = new ArrayList<Bodega>();
     private Random random = new Random();
+
+    private Map<Vino, Float> promediosCadaVino = new HashMap<>();
+    private Map<Vino, ArrayList<Reseña>> reseñasCadaVino = new HashMap<>();
 
     public GestorDeGeneracionDeReporte(PantallaGenerarReporteDeRankingDeVinos pantalla){
         this.pantalla = pantalla;
@@ -37,7 +45,7 @@ public class GestorDeGeneracionDeReporte {
         pantalla.solicitarFechaDesdeYFechaHasta(); // Mensaje 4 del DS
     };
         
-    public void fechaDesdeFechaHasta(String fechaDesde, String fechaHasta){
+    public void fechaDesdeFechaHasta(Date fechaDesde, Date fechaHasta){
         this.fechaDesde = fechaDesde;
         this.fechaHasta = fechaHasta;
         pantalla.solicitarTipoDeReseña();
@@ -60,26 +68,48 @@ public class GestorDeGeneracionDeReporte {
         if(confirmacion.equals("SI")){
             generarVinosRandom();
             buscarVinosConReseñaSolicitada();
+
         } else {
             finCU();
         }
         //pantalla.mostrarMensaje("Generando reporte...");
     }
 
-    public Vino[] buscarVinosConReseñaSolicitada(){
-        System.out.println("Buscando vinos con reseña solicitada...");
-        return null;
+    public void buscarVinosConReseñaSolicitada(){
+        System.out.println("Buscando vinos con reseñas solicitadas...");
+
+        for (Vino vino : vinos){
+            reseñasCadaVino.put(vino, vino.tomarReseñasDeVinoEnPeriodo(fechaDesde, fechaHasta));
+            promediosCadaVino.put(vino, vino.getPromedioPuntajeSommelier());
+        }
+
+        generarArchivo();
+
     }
 
     public void generarArchivo(){
         // TODO
+        System.out.println("Generando archivo...");
+
+
+
+        // Imprimimos, toString, de las reseñas del Map reseñasCadaVino
+        System.out.println("/////////////////////////////////\nReseñas de cada vino: \n");
+        for (Map.Entry<Vino, ArrayList<Reseña>> entry : reseñasCadaVino.entrySet()) {
+            System.out.println("---------------------------------");
+            System.out.println("=== VINO: " + entry.getKey().getNombre());
+            for (Reseña reseña : entry.getValue()){
+                System.out.println(reseña.toString());
+                System.out.println(entry.getKey().getPromedioPuntajeSommelier());
+                System.out.println();
+            }
+        }
     }
 
     public Vino[] ordenarVinosSegunCalificacion(){
         // TODO
         return null;
     }
-
 
     private void testCrearPaisesProvinciasYRegiones(){
         regiones.add(new RegionVitivinicola("Maipu", "Región vitivinícola de Argentina, Mendoza"));
@@ -115,7 +145,8 @@ public class GestorDeGeneracionDeReporte {
         }
         for (int i = 0; i < 15; i++){
             String nombreRandom = "Vino" + i;
-            Vino vino = new Vino(nombreRandom, bodegas.get(random.nextInt(bodegas.size())));
+            Float precioRandom = random.nextFloat() * 1000;
+            Vino vino = new Vino(nombreRandom, bodegas.get(random.nextInt(bodegas.size())), precioRandom);
             vino.testCrearReseñasAleatorias();
             vino.testCrearVarietal();
             vinos.add(vino);
@@ -130,22 +161,6 @@ public class GestorDeGeneracionDeReporte {
         String descripcionRandom = descripcionesBodegas[random.nextInt(descripcionesBodegas.length - 1)];
         return new Bodega(descripcionRandom, nombreRandom, regionRandom);
     }
-
-    
-
-    // private Vino testCrearVino(){
-    //     Vino vino = new Vino();
-    //     vino.testCrearReseñasAleatorias();
-    //     vino.testCrearVarietal();
-    //     return vino;
-    // }
-
-    // private void testCrearVinos(){
-    //     int cantidadVinos = 15;
-    //     for (int i = 0; i < cantidadVinos; i++){
-    //         vinos.add(testCrearVino());
-    //     }
-    // }
 
     public void finCU(){
         pantalla.cerrar();

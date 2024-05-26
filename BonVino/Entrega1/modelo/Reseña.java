@@ -34,7 +34,7 @@ public class Reseña {
         return puntaje;
     }
     
-    public boolean esPremium() {
+    public boolean sosPremium() {
         return esPremium;
     }
     
@@ -53,6 +53,6 @@ public class Reseña {
     }
 
     public String toString() {
-        return "Comentario: " + comentario + "\nPuntaje: " + puntaje + "\nFecha: " + fechaReseña.getDate() + "/" + fechaReseña.getMonth() + "/" + fechaReseña.getYear();
+        return "Comentario: " + comentario + "\nPuntaje: " + puntaje + "\nFecha: " + fechaReseña.getDate() + "/" + fechaReseña.getMonth() + "/" + fechaReseña.getYear() + "\n" + (esPremium ? "Premium" : "No premium");
     }
 }

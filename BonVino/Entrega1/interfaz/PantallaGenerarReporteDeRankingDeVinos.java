@@ -3,8 +3,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
+import java.util.Date;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -23,7 +22,8 @@ public class PantallaGenerarReporteDeRankingDeVinos {
     private JLabel labelImagenLogo, labelFechaDesde, labelFechaHasta, labelImagenTitulo;
     private JLabel labelTipoDeReseña;
     private JLabel labelFormatoVisualizacion;
-    private JTextField inputFechaDesde, inputFechaHasta;
+    private JTextField inputDiaFechaDesde, inputMesFechaDesde, inputAñoFechaDesde;
+    private JTextField inputDiaFechaHasta, inputMesFechaHasta, inputAñoFechaHasta;
     private JComboBox comboBoxTipoDeReseña;
     private JComboBox comboBoxFormatoVisualizacion;
     private JButton btnTomarFechaDesdeFechaHasta, btnCancelarCU, btnTomarTipoDeReseña, btnTomarFormatoVisualizacion;
@@ -89,30 +89,49 @@ public class PantallaGenerarReporteDeRankingDeVinos {
     // HECHO
     public void solicitarFechaDesdeYFechaHasta() {
         // TextFields___________________________________________________________
-        inputFechaDesde = new JTextField();
-        inputFechaDesde.setBounds(250, 100, 160, 45);
-        inputFechaDesde.setBackground(new Color(240,240,240));
-        inputFechaDesde.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
-        
-        inputFechaHasta = new JTextField(10);
-        inputFechaHasta.setBounds(430, 100, 160, 45);
-        inputFechaHasta.setBackground(new Color(240,240,240));
-        inputFechaHasta.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
+        inputDiaFechaDesde = new JTextField();
+        inputMesFechaDesde = new JTextField();
+        inputAñoFechaDesde = new JTextField();
+        inputDiaFechaDesde.setBounds(250, 100, 45, 35);
+        inputMesFechaDesde.setBounds(310, 100, 45, 35);
+        inputAñoFechaDesde.setBounds(370, 100, 60, 35);
+        inputDiaFechaDesde.setBackground(new Color(240,240,240));
+        inputMesFechaDesde.setBackground(new Color(240,240,240));
+        inputAñoFechaDesde.setBackground(new Color(240,240,240));
+        inputDiaFechaDesde.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
+        inputMesFechaDesde.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
+        inputAñoFechaDesde.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
+
+
+        inputDiaFechaHasta = new JTextField();
+        inputMesFechaHasta = new JTextField();
+        inputAñoFechaHasta = new JTextField();
+        inputDiaFechaHasta.setBounds(460, 100, 45, 35);
+        inputMesFechaHasta.setBounds(520, 100, 45, 35);
+        inputAñoFechaHasta.setBounds(580, 100, 60, 35);
+        inputDiaFechaHasta.setBackground(new Color(240,240,240));
+        inputMesFechaHasta.setBackground(new Color(240,240,240));
+        inputAñoFechaHasta.setBackground(new Color(240,240,240));
+        inputDiaFechaHasta.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
+        inputMesFechaHasta.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
+        inputAñoFechaHasta.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
+
 
         // Labels ______________________________________________________________
+
         labelFechaDesde = new JLabel("Fecha desde: [dd/mm/yyyy]");
-        labelFechaDesde.setBounds(250, 70, 160, 15);
+        labelFechaDesde.setBounds(250, 70, 200, 20);
         labelFechaDesde.setForeground(Color.WHITE);
         labelFechaDesde.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
         
         labelFechaHasta = new JLabel("Fecha hasta: [dd/mm/yyyy]");
-        labelFechaHasta.setBounds(430, 70, 160, 15);
+        labelFechaHasta.setBounds(460, 70, 200, 20);
         labelFechaHasta.setForeground(Color.WHITE);
-        labelFechaHasta.setFont(new Font("Lucida Grande", Font.PLAIN, 17));
+        labelFechaHasta.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
 
         // Buttons _____________________________________________________________
         btnTomarFechaDesdeFechaHasta = new JButton("Tomar fechas");
-        btnTomarFechaDesdeFechaHasta.setBounds(620, 100, 150, 45);
+        btnTomarFechaDesdeFechaHasta.setBounds(660, 100, 150, 45);
         btnTomarFechaDesdeFechaHasta.setBackground(new Color(102, 66, 138));
         btnTomarFechaDesdeFechaHasta.setForeground(Color.WHITE);
         btnTomarFechaDesdeFechaHasta.setFont(new Font("Lucida Grande", Font.PLAIN, 18));
@@ -122,18 +141,21 @@ public class PantallaGenerarReporteDeRankingDeVinos {
             public void actionPerformed(ActionEvent e)
             {
                 // __________________________________________ Mensaje 5 del DS
-                String[] fechas = tomarFechaDesdeFechaHasta();
                 try{
+                    Date[] fechas = tomarFechaDesdeFechaHasta();
                     // ______________________________________ Mensaje 6 del DS
                     if (validarFechas(fechas[0], fechas[1])){
                         System.out.println("Fechas válidas");
                         // _______________________________________________ Mensaje 7 del DS
                         
+                        inputDiaFechaDesde.setEnabled(false);
+                        inputMesFechaDesde.setEnabled(false);
+                        inputAñoFechaDesde.setEnabled(false);
+                        inputDiaFechaHasta.setEnabled(false);
+                        inputMesFechaHasta.setEnabled(false);
+                        inputAñoFechaHasta.setEnabled(false);
                         btnTomarFechaDesdeFechaHasta.setVisible(false);
-                        labelFechaDesde.setVisible(false);
-                        labelFechaHasta.setVisible(false);
-                        inputFechaDesde.setVisible(false);
-                        inputFechaHasta.setVisible(false);
+
                         gestor.fechaDesdeFechaHasta(fechas[0], fechas[1]);
                     }
                     else{
@@ -148,10 +170,17 @@ public class PantallaGenerarReporteDeRankingDeVinos {
         });
 
         // Agregar elementos al frame
+
+        frame.add(inputDiaFechaDesde);
+        frame.add(inputMesFechaDesde);
+        frame.add(inputAñoFechaDesde);
+
+        frame.add(inputDiaFechaHasta);
+        frame.add(inputMesFechaHasta);
+        frame.add(inputAñoFechaHasta);
+
         frame.add(labelFechaDesde);
-        frame.add(inputFechaDesde);
         frame.add(labelFechaHasta);
-        frame.add(inputFechaHasta);
         frame.add(btnTomarFechaDesdeFechaHasta);
     }
 
@@ -194,9 +223,8 @@ public class PantallaGenerarReporteDeRankingDeVinos {
                 if (seleccionTipoReseña == "Sommelier"){
                     
                     // Bloqueamos los elementos de la pantalla
+                    comboBoxTipoDeReseña.setEnabled(false);
                     btnTomarTipoDeReseña.setVisible(false);
-                    comboBoxTipoDeReseña.setVisible(false);
-                    labelTipoDeReseña.setVisible(false);
 
                     // Flujo de control hacia el gestor
                     gestor.tomarTipoReseñaSeleccionada(seleccionTipoReseña);
@@ -253,7 +281,7 @@ public class PantallaGenerarReporteDeRankingDeVinos {
                     // comboBoxFormatoVisualizacion.setVisible(false);
                     // labelFormatoVisualizacion.setVisible(false);
 
-                    btnTomarFormatoVisualizacion.setEnabled(false);
+                    btnTomarFormatoVisualizacion.setVisible(false);
                     comboBoxFormatoVisualizacion.setEnabled(false);
 
                     gestor.tomarSeleccionFormato(seleccionFormato);
@@ -301,23 +329,25 @@ public class PantallaGenerarReporteDeRankingDeVinos {
     }
 
     //
-    public String[] tomarFechaDesdeFechaHasta(){
-        String[] fechas = new String[2];
-        fechas[0] = inputFechaDesde.getText();
-        fechas[1] = inputFechaHasta.getText();
+    public Date[] tomarFechaDesdeFechaHasta(){
+        Date[] fechas = new Date[2];
+
+        int diaDesde = Integer.parseInt(inputDiaFechaDesde.getText());
+        int mesDesde = Integer.parseInt(inputMesFechaDesde.getText());
+        int añoDesde = Integer.parseInt(inputAñoFechaDesde.getText());
+
+        int diaHasta = Integer.parseInt(inputDiaFechaHasta.getText());
+        int mesHasta = Integer.parseInt(inputMesFechaHasta.getText());
+        int añoHasta = Integer.parseInt(inputAñoFechaHasta.getText());
+
+        fechas[0] = new Date(añoDesde, mesDesde, diaDesde); // Fecha desde
+        fechas[1] = new Date(añoHasta, mesHasta, diaHasta); // Fecha hasta
         return fechas;
     }
 
-    private boolean validarFechas(String fechaDesdeStr, String fechaHastaStr){
-        // Definir el formato de la fecha
-
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        // Convertir las cadenas de fecha en LocalDate
-        LocalDate fechaDesde = LocalDate.parse(fechaDesdeStr, formatter);
-        LocalDate fechaHasta = LocalDate.parse(fechaHastaStr, formatter);
-
+    private boolean validarFechas(Date fechaDesde, Date fechaHasta){
         // Validar que fechaDesde no sea mayor que fechaHasta
-        if (fechaDesde.isAfter(fechaHasta)) {
+        if (fechaDesde.after(fechaHasta)) {
             return false;
         } else {
             return true;

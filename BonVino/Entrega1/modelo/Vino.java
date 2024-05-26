@@ -11,22 +11,25 @@ public class Vino {
     private ArrayList<Varietal> varietales;
     private Bodega bodega;
     private Random random = new Random(); // Create a Random object
+    private Float precioSugerido;
+
 
     // Add a constructor to initialize all attributes
-    public Vino(String nombre, Bodega bodega){
+    public Vino(String nombre, Bodega bodega, Float precioSugerido){
+    //public Vino(String nombre, Bodega bodega){
         this.nombre = nombre;
         this.reseñas = new ArrayList<>();
         this.bodega = bodega;
         this.varietales = new ArrayList<>();
+        this.precioSugerido = precioSugerido;
     }
     
+
     public ArrayList<Reseña> tomarReseñasDeVinoEnPeriodo(Date fechaDesde, Date fechaHasta){
         ArrayList<Reseña> arrayTemporal = new ArrayList<>(); // Change array type to ArrayList<Reseña>
         for (Reseña cadaReseña : reseñas){
-            if (cadaReseña.sosDelPeriodo(fechaDesde, fechaHasta)){
-                
+            if (cadaReseña.sosDelPeriodo(fechaDesde, fechaHasta) && cadaReseña.sosPremium()){
                 arrayTemporal.add(cadaReseña); // Use add() method to add each Reseña object to the arrayTemporal list
-
             }
         }
         return arrayTemporal;
@@ -42,6 +45,23 @@ public class Vino {
     
     public Bodega getBodega(){
         return bodega;
+    }
+
+    // public getRegionYPais(){}
+
+    // TODO cambiar nombre de calcularPromedioDeLasReseñas() en el diagrama
+    public Float getPromedioPuntajeSommelier(){
+        Float promedio = 0.0f;
+        int sumatoria = 0;
+        if (reseñas.size() > 0){
+            for (Reseña cadaReseña : reseñas){
+                if (cadaReseña.sosPremium()){
+                    sumatoria += cadaReseña.getPuntaje();
+                }
+            }
+            promedio = (float) (sumatoria / reseñas.size());
+        }
+        return promedio;
     }
 
     public void testCrearReseñasAleatorias(){
@@ -81,8 +101,6 @@ public class Vino {
         return cad;
     }
 
-
-
     public String toString(){
         String cad = "==========================================================\n" + 
         "Vino: " + nombre + 
@@ -93,10 +111,10 @@ public class Vino {
         "\n...................................................\n" + 
         "Varietales: " + toStringVarietales() + 
         "\n...................................................\n" + 
+        "Precio sugerido: " + precioSugerido +
+        "\n...................................................\n" +
         "Reseñas\n" + toStringReseñas() + 
         "==========================================================\n";
         return cad;
     }
-
-
 }
