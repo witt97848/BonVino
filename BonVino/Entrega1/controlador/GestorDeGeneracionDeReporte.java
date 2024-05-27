@@ -16,12 +16,13 @@ import Entrega1.modelo.Reseña;
 import Entrega1.modelo.Vino;
 
 public class GestorDeGeneracionDeReporte {
-    public PantallaGenerarReporteDeRankingDeVinos pantalla;
-    public InterfazExcel interfazExcel;
+    private PantallaGenerarReporteDeRankingDeVinos pantalla;
+    private InterfazExcel interfazExcel;
     private Date fechaDesde, fechaHasta;
-    private String seleccionTipoReseñas, seleccionFormatoVisualizacion, formatoVisualizacion;
+    private String seleccionTipoReseñas, formatoVisualizacion;
     private ArrayList<Vino> todosLosVinos = new ArrayList<Vino>();
 
+    // Clases necesarias para generar datos aleatorios
     private ArrayList<Pais> paises = new ArrayList<Pais>();
     private ArrayList<Provincia> provincias = new ArrayList<Provincia>();
     private ArrayList<RegionVitivinicola> regiones = new ArrayList<RegionVitivinicola>();
@@ -66,7 +67,7 @@ public class GestorDeGeneracionDeReporte {
         pantalla.solicitarTipoDeReseña();
     }
 
-    // TODO cambiar en el diagrama el nombre de tomarSeleccionSommelier por tomarTipoReseñaSeleccionada()
+    // HECHO
     public void tomarTipoReseñaSeleccionada(String seleccion){
         this.seleccionTipoReseñas = seleccion;
         pantalla.solicitarFormatoVisualizacion();
@@ -144,18 +145,17 @@ public class GestorDeGeneracionDeReporte {
         // Creamos el archivo Excel
              
         ArrayList<String> filas = new ArrayList<>();
-
-        System.out.println("cantidad de paises registrados: " + paises.size());
-        for(Pais pais : paises){
-            System.out.println("Pais: " + pais.getNombre());
-        }
-        System.out.println("cantidad de provincias registradas: " +  provincias.size());
-        System.out.println("cantidad de regiones registradas:" + regiones.size());
         
         for (Vino vino : vinosTop10){
-            Pais paisDelVino = vino.conocerPais(paises, provincias);
+
+            String regionDelVinoStr = vino.getRegion();
+            String paisDelVinoStr = vino.conocerPais(paises, provincias).getNombre();
+            Float calificacionGeneral = vino.getCalificacionGeneral();
+            Float precioSugerido = vino.getPrecioSugerido();
+            String bodegaStr = vino.getBodega().getNombre();
             int top = vinosTop10.indexOf(vino) + 1;
-            String varietales = "[";
+        
+            String varietales = "[";    
             for (int i = 0; i < vino.getVarietales().size(); i++){
                 if (i < vino.getVarietales().size() - 1){
                     varietales += "'" + vino.getVarietales().get(i).getDescripcion() + "', ";
@@ -170,12 +170,12 @@ public class GestorDeGeneracionDeReporte {
             "{" + top + "," +
             "'nombre':'" + vino.getNombre() + "," +
             "'calificacionSommelier':" + promediosCadaVinoSommelier.get(vino) + "," +
-            "'calificacionGeneral':" + vino.getPromedioPuntaje() + "," +
+            "'calificacionGeneral':" + calificacionGeneral + "," +
             "'precioSugerido': " + vino.getPrecioSugerido() + "," + 
-            "'bodega': " + vino.getBodega().getNombre() + "," + 
+            "'bodega': " + bodegaStr + "," + 
             "'Varietal': " + varietales + "," + 
-            "'Region': " + vino.getBodega().getRegion().getNombre() + "," +
-            "'Pais': " + paisDelVino.getNombre() +
+            "'Region': " + regionDelVinoStr + "," +
+            "'Pais': " + paisDelVinoStr +
             "},";
 
             filas.add(fila);
@@ -262,4 +262,16 @@ public class GestorDeGeneracionDeReporte {
         pantalla.cerrar();
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
 

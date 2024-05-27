@@ -23,6 +23,7 @@ public class Bodega {
     public RegionVitivinicola getRegion(){
         return region;
     }
+    
     public String toString(){
         return "Nombre: " + nombre + " Descripcion: " + descripcion;
     }

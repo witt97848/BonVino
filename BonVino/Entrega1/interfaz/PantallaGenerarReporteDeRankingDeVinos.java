@@ -278,9 +278,6 @@ public class PantallaGenerarReporteDeRankingDeVinos {
                 String seleccionFormato = tomarSeleccionFormato();
                 if (seleccionFormato == "EXCEL (.xslx)"){
                     // Ocultamos los elementos de la pantalla___________
-                    // btnTomarFormatoVisualizacion.setVisible(false);
-                    // comboBoxFormatoVisualizacion.setVisible(false);
-                    // labelFormatoVisualizacion.setVisible(false);
 
                     btnTomarFormatoVisualizacion.setVisible(false);
                     comboBoxFormatoVisualizacion.setEnabled(false);
@@ -386,3 +383,4 @@ public class PantallaGenerarReporteDeRankingDeVinos {
         frame.dispose();
     }
 }
+

@@ -49,7 +49,6 @@ public class Vino {
         return bodega;
     }    
 
-    // TODO cambiar nombre de calcularPromedioDeLasReseñas() en el diagrama
     public Float getPromedioPuntajeSommelier(){
         Float promedio = 0.0f;
         int sumatoria = 0;
@@ -64,7 +63,7 @@ public class Vino {
         return promedio;
     }
 
-    public Float getPromedioPuntaje(){
+    public Float getCalificacionGeneral(){
         Float promedio = 0.0f;
         int sumatoria = 0;
         if (reseñas.size() > 0){
@@ -145,5 +144,9 @@ public class Vino {
         "Reseñas\n" + toStringReseñas() + 
         "==========================================================\n";
         return cad;
+    }
+
+    public String getRegion(){
+        return bodega.getRegion().getNombre();
     }
 }
