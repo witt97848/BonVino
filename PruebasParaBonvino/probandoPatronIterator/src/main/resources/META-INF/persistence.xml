@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--<persistence version="2.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">-->
+<!--    <persistence xmlns="https://jakarta.ee/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence https://jakarta.ee/xml/ns/persistence/persistence_3_0.xsd" version="3.0">-->
+
+
+    <persistence xmlns="https://jakarta.ee/xml/ns/persistence"
+                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                 xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence
+                                 https://jakarta.ee/xml/ns/persistence/persistence_3_0.xsd"
+                 version="3.0">
+
+
+
+    <persistence-unit name="bonvino_pu">
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+        <properties>
+
+            <!-- Configuración de la base de datos -->
+            <property name="javax.persistence.jdbc.url" value="jdbc:sqlite:bonvino_db.db"/>
+<!--            <property name="javax.persistence.jdbc.url" value="jdbc:sqlite:E:\Estudios\UTN\2024 3K3\DSI\PPAI-BonVino\PruebasParaBonvino\probandoPatronIterator\src\main\resources\bonvino_db.db"/>-->
+
+            <property name="hibernate.connection.url" value="jdbc:sqlite:bonvino_db.db"/>
+            <property name="javax.persistence.jdbc.driver" value="org.sqlite.JDBC"/>
+
+            <!-- Propiedades adicionales de Hibernate -->
+
+            <property name="hibernate.dialect" value="org.hibernate.dialect.SQLiteDialect"/>
+            <property name="hibernate.connection.autocommit" value="true"/>
+            <property name="hibernate.show_sql" value="true"/>
+            <property name="hibernate.hbm2ddl.auto" value="update"/>
+            <property name="hibernate.flushMode" value="ALWAYS" />
+            <property name="hibernate.cache.use_second_level_cache" value="false" />
+            <property name="hibernate.format_sql" value="true"/>
+            <property name="hibernate.use_sql_comments" value="true"/>
+        </properties>
+    </persistence-unit>
+</persistence>
